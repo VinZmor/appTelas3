@@ -25,7 +25,7 @@ export default function Login({navigation}) {
   }, []);
   
   return (
-    <ImageBackground source={require('../../assets/img/fundo.jpg')} style={styles.imgBg} >
+    <ImageBackground source={require('../../assets/img/fundo3.jpg')} style={styles.imgBg} >
                 
     <KeyboardAvoidingView 
     style={styles.background}>

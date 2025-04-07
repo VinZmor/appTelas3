@@ -1,151 +1,100 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet, ScrollView, ImageBackground, TouchableOpacity} from "react-native";
-
+import React from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-
-const { width } = Dimensions.get("window");
 
 const data = [
   {
-    title:"Dados RPG",
+    title: "Dados RPG",
     text: "Quer personalisar seus dados? De uma olhada em: DadosRPG",
     valor: 24,
-    img: 'https://s.zst.com.br/cms-assets/2021/06/q-workshop-conjunto-de-dados-ornamentados-de-call-of-cthulhu.jpg'
-},
-
-{
-    title:"DLC Dead By Daylight",
-    text: "Quer jogar inspirado na nova temporada de Stragem Thigs? Veja essa nova DLC de DBD",
-    valor: 39,
-    img: 'https://psxbrasil.com.br/wp-content/uploads/2019/08/strangerthings-0deadbydaylight.jpg'
-},
-
-{
-    title:"Livro de Regras Pathfinder 2e",
-    text: "Quer mostrar o quão RPGista você é? Então compre nosso livro de regras",
-    valor: 120,
-    img: 'https://m.media-amazon.com/images/I/71GnKJirQrL._AC_UF894,1000_QL80_.jpg'
-},
+    img: 'https://s.zst.com.br/cms-assets/2021/06/q-workshop-conjunto-de-dados-ornamentados-de-call-of-cthulhu.jpg',
+  },
 ];
 
-
-
-const{width:larguraTela, height:alturaTela} = Dimensions.get('window');
-
-export default function CarrosselProdutos() {
-  
-
-  const [background, setBackground] = useState(data[0].img);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  
+const ProductDetails = () => {
+  const product = data[0]; // Acessa o primeiro item do array de produtos
 
   return (
     <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* Exibe a imagem do produto */}
+        <Image source={{ uri: product.img }} style={styles.productImage} />
 
-     <View style={{...StyleSheet.absoluteFill, backgroundColor:'#000' }}>
-      <ImageBackground source={{uri: background}} style={styles.imgBg} blurRadius={8} >
-      
-  
+        {/* Exibe as informações do produto */}
+        <View style={styles.productInfo}>
+          <Text style={styles.productTitle}>{product.title}</Text>
+          <Text style={styles.productDescription}>{product.text}</Text>
+          <Text style={styles.productPrice}>R$ {product.valor},00</Text>
+        </View>
 
-       <ScrollView>
-                  <View style={styles.moreInfo}>
-                    <View style={{marginTop: 5}}>
-      
-                      <View style={styles.headerTitleInfo}>
-                      <Text style={styles.movieTitle}>{data[activeIndex].title}</Text>
-                      <Text style={styles.priceTitle}>R$ {data[activeIndex].valor},00</Text>
-                      </View>
-                      
-                      <Text style={styles.movieDesc}>{data[activeIndex].text}</Text>
-                    </View>
-                    <TouchableOpacity 
-                    style={{ marginRight: 15, marginTop: 10 }} 
-                    onPress={() => alert('Você enviou pro carrinho')}
-                    >
-                      <Icon 
-                      name="queue" 
-                      color="#131313" 
-                      size={30} 
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  </ScrollView>
-       </ImageBackground>
-      </View>
-     
+        {/* Botão para adicionar ao carrinho */}
+        <TouchableOpacity style={styles.addToCartButton} onPress={() => alert('Produto adicionado ao carrinho')}>
+          <Icon name="shopping-cart" color="#fff" size={30} />
+          <Text style={styles.buttonText}>Adicionar ao Carrinho</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    height: 250,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
   },
-  image: {
-     width: "100%", height: 350, borderRadius: 10
-     },
-  title: { 
-    fontSize: 18, fontWeight: "bold", marginTop: 10
+  scrollContainer: {
+    alignItems: 'center',
+    padding: 15,
   },
-  imgBg:{
-    flex:1,
-    width: null,
-    height: null,
-    opacity: 0.9,
-    justifyContent: "flex-start",
-    backgroundColor: '#000'
-  },
-
-
-  slideView:{
+  productImage: {
     width: '100%',
-    height: 450,
-    justifyContent: 'center',
-    alignItems: 'center'
+    height: 300,
+    borderRadius: 10,
+    marginBottom: 15,
   },
-
-
-  moreInfo:{
-    backgroundColor: '#FFF',
-    width: larguraTela,
-    height: alturaTela,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  productInfo: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
   },
-  movieTitle:{
-    paddingLeft: 15,
-    fontSize: 22,
+  productTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#131313',
-    marginBottom: 5,
+    color: '#333',
+    marginBottom: 10,
   },
-  movieDesc:{
-    paddingLeft: 15,
-    color: '#131313',
-    fontSize: 14,
-    fontWeight: 'bold'
+  productDescription: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 10,
   },
-
-  headerTitleInfo:{
-      flexDirection:'row',
-  },
-
-  priceTitle:{
-    paddingLeft: 15,
-    fontSize: 22,
+  productPrice: {
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#055a02',
-    marginBottom: 5,
   },
-  
+  addToCartButton: {
+    flexDirection: 'row',
+    backgroundColor: '#131313',
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: 10,
+  },
 });
+
+export default ProductDetails;
